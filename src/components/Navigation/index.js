@@ -7,6 +7,9 @@ const Navigation = () => (
     <div>
         <ul>
             <li>
+                <Link to={ROUTES.SIGNUP}>Sign UP</Link>
+            </li>
+            <li>
                 <Link to={ROUTES.SIGNIN}>Sign In</Link>
             </li>
             <li>
