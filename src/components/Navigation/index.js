@@ -7,6 +7,10 @@ import * as ROUTES from '../../constants/routes';
 
 import { AuthUserContext } from '../Session';
 
+import { Navbar, NavbarLink } from 'styled-navbar-component';
+import { Nav } from 'styled-nav-component';
+import { Container } from 'styled-container-component';
+
 const Navigation = () => (
     <div>
         <AuthUserContext.Consumer>
@@ -17,31 +21,43 @@ const Navigation = () => (
     );
 
 const NavigationAuth = () => (
-    <ul>
-        <li>
-            <Link to={ROUTES.LANDING}>Landing</Link>
-        </li>
-        <li>
-            <Link to={ROUTES.HOME}>Home</Link>
-        </li>
-        <li>
-            <Link to={ROUTES.ACCOUNT}>Account</Link>
-        </li>
-        <li>
-            <SignOutButton />
-        </li>
-    </ul>
+    <Container fluid>
+        <Container fluid>
+          <Navbar expandSm light>
+            <Nav start>
+                <Link to={ROUTES.LANDING}>
+                    <NavbarLink light>Landing</NavbarLink>
+                </Link>
+                
+                <Link to={ROUTES.HOME}>
+                    <NavbarLink light>Home</NavbarLink>
+                </Link>
+                    
+                <Link to={ROUTES.ACCOUNT}>
+                    <NavbarLink light>Account</NavbarLink>
+                </Link>        
+                <SignOutButton />
+            </Nav>
+          </Navbar>
+        </Container>
+    </Container>
 );
 
 const NavigationNonAuth = () => (
-    <ul>
-        <li>
-            <Link to={ROUTES.LANDING}>Landing</Link>
-        </li>
-        <li>
-            <Link to={ROUTES.SIGNIN}>Sign In</Link>
-        </li>
-    </ul>
+    <Container fluid>
+        <Container fluid>
+          <Navbar expandSm light>
+            <Nav start>
+                <Link to={ROUTES.LANDING}>
+                    <NavbarLink light>Landing</NavbarLink>
+                </Link>
+                <Link to={ROUTES.SIGNIN}>
+                    <NavbarLink light>Sign In</NavbarLink>
+                </Link>
+            </Nav>
+          </Navbar>
+        </Container>
+    </Container>
 );
 
 export default Navigation;

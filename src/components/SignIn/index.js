@@ -6,12 +6,28 @@ import { PasswordForgetLink } from '../PasswordForget';
 import { withFirebase } from '../Firebase';
 import * as ROUTES from '../../constants/routes';
 
+import styled from 'styled-components';
+
+// Create a Wrapper component that'll render a <section> tag with some styles
+const Wrapper = styled.section`
+  padding: 4em;
+  background: papayawhip;
+`;
+
+const Title = styled.h1`
+    font-size: 1.5em;
+    text-align: center;
+    color: palevioletred;
+`;
+
 const SignInPage = () => (
     <div>
-        <h1>SignInPage</h1>
-        <SignInForm />
-        <PasswordForgetLink />
-        <SignUpLink />
+        <Wrapper>
+            <Title>Sign In Page</Title>
+            <SignInForm />
+            <PasswordForgetLink />
+            <SignUpLink />
+        </Wrapper>
     </div>
 );
 
@@ -20,6 +36,18 @@ const INITIAL_STATE = {
     password: '',
     error: null,
 };
+
+const Button = styled.button`
+  /* Adapt the colors based on primary prop */
+  background: ${props => props.primary ? "palevioletred" : "white"};
+  color: ${props => props.primary ? "white" : "palevioletred"};
+
+  font-size: 1em;
+  margin: 1em;
+  padding: 0.25em 1em;
+  border: 2px solid palevioletred;
+  border-radius: 3px;
+`;
 
 class SignInFormBase extends Component {
     constructor(props) {
