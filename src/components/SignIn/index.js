@@ -7,6 +7,7 @@ import { withFirebase } from '../Firebase';
 import * as ROUTES from '../../constants/routes';
 
 import styled from 'styled-components';
+import { BootstrapBaseCss } from 'styled-base-components';
 
 // Create a Wrapper component that'll render a <section> tag with some styles
 const Wrapper = styled.section`
@@ -36,18 +37,6 @@ const INITIAL_STATE = {
     password: '',
     error: null,
 };
-
-const Button = styled.button`
-  /* Adapt the colors based on primary prop */
-  background: ${props => props.primary ? "palevioletred" : "white"};
-  color: ${props => props.primary ? "white" : "palevioletred"};
-
-  font-size: 1em;
-  margin: 1em;
-  padding: 0.25em 1em;
-  border: 2px solid palevioletred;
-  border-radius: 3px;
-`;
 
 class SignInFormBase extends Component {
     constructor(props) {
@@ -82,26 +71,28 @@ class SignInFormBase extends Component {
         const isInvalid = password === '' || email === '';
 
         return (
-            <form onSubmit={this.onSubmit}>
-                <input 
-                    name = "email"
-                    value={email}
-                    onChange={this.onChange}
-                    type="text"
-                    placeholder="Email Address"
-                />
-                <input 
-                    name = "password"
-                    value={password}
-                    onChange={this.onChange}
-                    type="password"
-                    placeholder="Password"
-                />
-                <button disabled={isInvalid} type="submit">
-                    Sign In
-                </button>
-                {error && <p>{error.message}</p>}
-            </form>
+            <div>
+                <form onSubmit={this.onSubmit}>
+                    <input 
+                        name = "email"
+                        value={email}
+                        onChange={this.onChange}
+                        type="text"
+                        placeholder="Email Address"
+                    />
+                    <input 
+                        name = "password"
+                        value={password}
+                        onChange={this.onChange}
+                        type="password"
+                        placeholder="Password"
+                    />
+                    <button disabled={isInvalid} type="submit">
+                        Sign In
+                    </button>
+                    {error && <p>{error.message}</p>}
+                </form>
+            </div>
         );
     }
 }
