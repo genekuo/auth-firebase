@@ -7,7 +7,6 @@ import { withFirebase } from '../Firebase';
 import * as ROUTES from '../../constants/routes';
 
 import styled from 'styled-components';
-import { BootstrapBaseCss } from 'styled-base-components';
 
 // Create a Wrapper component that'll render a <section> tag with some styles
 const Wrapper = styled.section`
@@ -26,6 +25,7 @@ const SignInPage = () => (
         <Wrapper>
             <Title>Sign In Page</Title>
             <SignInForm />
+            <SignInGoogle />
             <PasswordForgetLink />
             <SignUpLink />
         </Wrapper>
@@ -97,10 +97,58 @@ class SignInFormBase extends Component {
     }
 }
 
+class SignInGoogleBase extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = { error: null };
+    }
+
+    onSubmit = event => {
+        this.props.firebase
+            .doSignInWithGoogle()
+            .then(socialAuthUser => {
+                // create a user in firebase realtime database
+                return this.props.firebase
+                    .user(socialAuthUser.user.uid)
+                    .set({
+                        username: socialAuthUser.user.displayName,
+                        email: socialAuthUser.user.email,
+                        roles: [],
+                    });
+            })
+            .then(() => {
+                this.setState({ error: null });
+                this.props.history.push(ROUTES.HOME);
+            })
+            .catch(error => {
+                this.setState({ error });
+            });
+
+        event.preventDefault();
+    }
+
+    render() {
+        const { error } = this.state;
+
+        return (
+            <form onSubmit={this.onSubmit}>
+                <button type="submit">Sign In with Google</button>
+                {error && <p>{error.message}</p>}
+            </form>
+        );
+    }
+}
+
 const SignInForm = compose(
     withRouter,
     withFirebase,
 )(SignInFormBase);
 
+const SignInGoogle = compose(
+    withRouter,
+    withFirebase,
+)(SignInGoogleBase);
+
 export default SignInPage;
-export { SignInForm };
+export { SignInForm, SignInGoogleBase };
