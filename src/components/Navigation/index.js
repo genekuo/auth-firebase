@@ -35,7 +35,10 @@ const NavigationAuth = () => (
                     
                 <Link to={ROUTES.ACCOUNT}>
                     <NavbarLink light>Account</NavbarLink>
-                </Link>        
+                </Link> 
+                <Link to={ROUTES.ADMIN}>
+                    <NavbarLink light>Admin</NavbarLink>
+                </Link>       
                 <SignOutButton />
             </Nav>
           </Navbar>
