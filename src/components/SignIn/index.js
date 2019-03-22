@@ -26,6 +26,7 @@ const SignInPage = () => (
             <Title>Sign In Page</Title>
             <SignInForm />
             <SignInGoogle />
+            <SignInFacebook />
             <PasswordForgetLink />
             <SignUpLink />
         </Wrapper>
@@ -140,6 +141,51 @@ class SignInGoogleBase extends Component {
     }
 }
 
+class SignInFacebookBase extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = { error: null };
+    }
+
+    onSubmit = event => {
+        this.props.firebase
+            .doSignInWithFacebook()
+            .then(socialAuthUser => {
+                // create a user in firebase realtime database
+                console.log("username: " + socialAuthUser.additionalUserInfo.profile.name);
+                console.log("email: " + socialAuthUser.additionalUserInfo.profile.email);
+                return this.props.firebase
+                    .user(socialAuthUser.user.uid)
+                    .set({
+                        username: socialAuthUser.additionalUserInfo.profile.name,
+                        //email: socialAuthUser.additionalUserInfo.profile.email,
+                        roles: [],
+                    });
+            })
+            .then(() => {
+                this.setState({ error: null });
+                this.props.history.push(ROUTES.HOME);
+            })
+            .catch(error => {
+                this.setState({ error });
+            });
+
+        event.preventDefault();
+    }
+
+    render() {
+        const { error } = this.state;
+
+        return (
+            <form onSubmit={this.onSubmit}>
+                <button type="submit">Sign In with Facebook</button>
+                {error && <p>{error.message}</p>}
+            </form>
+        );
+    }
+}
+
 const SignInForm = compose(
     withRouter,
     withFirebase,
@@ -150,5 +196,10 @@ const SignInGoogle = compose(
     withFirebase,
 )(SignInGoogleBase);
 
+const SignInFacebook = compose(
+    withRouter,
+    withFirebase,
+)(SignInFacebookBase);
+
 export default SignInPage;
-export { SignInForm, SignInGoogleBase };
+export { SignInForm, SignInGoogleBase, SignInFacebookBase };
